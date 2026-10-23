@@ -1,0 +1,6 @@
+# dsh-preview-snip bundle patch: one plugin row.
+- insert:
+    - id: preview-snip
+      name: dsh-preview-snip
+      config:
+        enabled: true
