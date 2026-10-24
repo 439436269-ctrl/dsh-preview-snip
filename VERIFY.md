@@ -1,4 +1,4 @@
-# Verification record — dsh-preview-snip 0.2.1
+# Verification record — dsh-preview-snip 0.3.0
 
 ## Unit tests
 
@@ -35,6 +35,18 @@ Opened `D:\codes\MEMORY.md` (Markdown text preview), clicked `圈选`, dragged o
 - attachment `preview-snip-*.png` present;
 - no page errors;
 - this exercises the DOM-to-SVG `foreignObject` path.
+
+## Sidebar browser bridge (preview-test, 2026-10-24)
+
+In a test host, opened an existing conversation (so `conversation.session.header.utilities` was mounted), injected a fake `<webview data-sidebar-browser-frame>` with a `capturePage()` returning a 600×400 PNG, then clicked the floating `圈选` and dragged over it:
+
+- floating `圈选 / 全能圈选` group appeared over the fake webview;
+- notice `已把圈选图片插入输入框`;
+- attachment `preview-snip-*.png` present;
+- composer text remained empty;
+- no page errors.
+
+This exercises the browser bridge and `captureBrowser` crop path. A real desktop `<webview>` is the same API; it was not available in the browser-based test host.
 
 ## Not yet verified after this release
 

@@ -56,8 +56,11 @@ test("the bundle registers the document-preview action", async () => {
     }
   };
   module.apply(ctx);
-  assert.equal(captured.length, 1);
+  assert.equal(captured.length, 2);
   assert.equal(captured[0].name, "sidebar.right.tab.document.actions");
   assert.equal(captured[0].id, "preview-snip");
   assert.equal(typeof captured[0].inject, "function");
+  assert.equal(captured[1].name, "conversation.session.header.utilities");
+  assert.equal(captured[1].id, "preview-snip-browser");
+  assert.equal(typeof captured[1].inject, "function");
 });

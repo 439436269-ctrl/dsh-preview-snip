@@ -32,6 +32,13 @@ After a full snip you get a canvas editor:
 - text is entered inline (not a browser prompt);
 - the inserted image is the annotated canvas, not the original crop.
 
+## Sidebar browser (desktop)
+
+When a webpage is open in DSH's **right-side browser tab**, a small floating `圈选 / 全能圈选` group appears over the webview. It captures through Electron's `webview.capturePage()` and then uses the same crop, annotation and composer-attachment path.
+
+- This is the browser tab (`sidebar.right.pane.tab` key `browser`), not a document preview.
+- In browser/web mode the page is a cross-origin iframe, so the group does not appear; a browser extension would be needed there.
+
 ## Install
 
 ```sh
@@ -42,8 +49,9 @@ Open any file in the right Sidebar. The three buttons appear as one segmented gr
 
 ## How it works
 
-- Uses the `sidebar.right.tab.document.actions` slot; no Host routes and no external screenshot library.
+- Uses `sidebar.right.tab.document.actions` for file previews and a `conversation.session.header.utilities` bridge for the desktop sidebar browser; no Host routes and no external screenshot library.
 - Pixel crops map through `object-fit: contain` for images/video, and use the canvas bitmap for PDF/WebGL.
+- Sidebar-browser capture uses `webview.capturePage()`; the selected viewport rectangle is cropped from the returned NativeImage.
 - DOM previews are cloned, the pane's CSS rules are embedded, and the clone is drawn through an SVG `foreignObject`.
 - Creates the PNG in the browser and hands it to `conversation.createDrafts` / `inputActions.addAttachments`, the same draft attachment path as a pasted image.
 - Quoting uses the browser text selection and `inputActions.setDraft`.
@@ -54,6 +62,7 @@ Open any file in the right Sidebar. The three buttons appear as one segmented gr
 - Video captures the current frame; it does not record.
 - WebGL capture needs the viewer to keep its drawing buffer; the first-party Blender and STL viewers do. A third-party WebGL preview that clears its buffer may capture blank.
 - Cross-origin images that taint the canvas fail with a notice.
+- Sidebar-browser capture is desktop-only; it needs a `<webview>` with `capturePage`. Browser/iframe mode cannot capture a cross-origin page.
 - The editor is client-side only; the original file is never modified.
 
 ## Compatibility

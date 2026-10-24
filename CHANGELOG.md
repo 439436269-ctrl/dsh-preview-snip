@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 — 2026-10-24
+
+- **DSH sidebar browser support**: when a webpage is open in the desktop sidebar-browser tab, a floating `圈选 / 全能圈选` group appears over the `webview`. Capture goes through Electron's `webview.capturePage()`, then the same crop/annotation/attachment path. This is the browser tab (`sidebar.right.pane.tab` key `browser`), not a document preview.
+- The browser bridge is registered at `conversation.session.header.utilities` and uses the same conversation draft API.
+- Web/iframe mode cannot read a cross-origin page; the floating group only appears when a desktop `<webview>` with `capturePage` is present.
+
 ## 0.2.1 — 2026-10-24
 
 - Quick/full snip now attaches **only the image**; the default "请解释圈选区域的内容。" text is no longer inserted into the composer.
