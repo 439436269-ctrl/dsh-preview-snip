@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1 — 2026-10-24
+
+- Quick/full snip now attaches **only the image**; the default "请解释圈选区域的内容。" text is no longer inserted into the composer.
+- **按钮组合**: quick / annotate / quote are now one segmented group with `white-space: nowrap`, so narrow preview headers keep them horizontal instead of one character per line.
+- **Hot-reload CSS fix**: the injected stylesheet is replaced on every load instead of skipped when the old 0.1.x `<style>` element already exists. This is what made 全能圈选 show only a dark overlay/image without the editor toolbar in a hot-reloaded page.
+- README/VERIFY updated for 0.2.1.
+
 ## 0.2.0 — 2026-10-24
 
 - **All preview types**: the actions now appear on every document preview, not only images/PDF. Pixel capture covers images, video frames and canvas (PDF/WebGL); text/Markdown/code/HTML previews use a DOM-to-SVG `foreignObject` screenshot.

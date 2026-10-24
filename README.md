@@ -10,7 +10,7 @@ Snip, annotate or quote **any** document preview in DSH and put the result into 
 
 The plugin adds three actions to the right-Sidebar document-preview header:
 
-- **圈选 / Snip** — drag a rectangle; the selection becomes a PNG attachment in the composer, with a short default question. This is the quick path.
+- **圈选 / Snip** — drag a rectangle; the selection becomes a PNG attachment in the composer. The quick path only adds the image; it does not fill in a question.
 - **全能圈选 / Annotate** — drag a rectangle, then open an editor and add a **box**, **circle/ellipse**, **arrow** or **text**, choose a color, undo/clear, and insert the annotated PNG.
 - **引用选中 / Quote selection** — quote the current text selection into the composer as a Markdown blockquote.
 
@@ -38,7 +38,7 @@ After a full snip you get a canvas editor:
 dsh plugin --profile <profile> add dsh-preview-snip
 ```
 
-Open any file in the right Sidebar. The three buttons appear in the preview header.
+Open any file in the right Sidebar. The three buttons appear as one segmented group in the preview header.
 
 ## How it works
 

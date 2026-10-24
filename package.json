@@ -1,6 +1,6 @@
 {
   "name": "dsh-preview-snip",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Circle a region or quote selected text in an image/PDF preview and insert it into the DSH composer.",
   "type": "module",
   "license": "MIT",
