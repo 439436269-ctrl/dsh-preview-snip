@@ -1,4 +1,4 @@
-# Verification record — dsh-preview-snip 0.1.0
+# Verification record — dsh-preview-snip 0.2.0
 
 ## Unit tests
 
@@ -6,33 +6,35 @@
 
 The bundle registers exactly one `sidebar.right.tab.document.actions` entry with id `preview-snip` and a session inject factory.
 
-## Image preview e2e (2026-10-23, preview-test)
+## Image quick snip (preview-test, 2026-10-24)
 
-Opened `D:\codes\dsh-preview-market\docs\preview-market-section.png` in the right Sidebar (preview `<img>` 695×390), clicked `圈选`, dragged a 278×156 rectangle, and checked the composer:
+Opened a 695×390 image, clicked `圈选`, dragged a rectangle:
 
-- notice: `已把圈选图片插入输入框`;
-- composer text: `请解释圈选区域的内容。`;
-- attachment rail: `preview-snip-*.png` thumbnail (62×62);
+- notice `已把圈选图片插入输入框`;
+- composer text `请解释圈选区域的内容。`;
+- attachment `preview-snip-*.png` in the composer rail;
 - no page errors.
 
-## PDF preview e2e (2026-10-23, preview-test)
+## Image full snip + annotation (preview-test, 2026-10-24)
 
-Opened `D:\codes\resume-1.6\吕超杰-前端工程师-简历-v1.6.pdf` (rendered page canvas 695×983), clicked `圈选`, dragged over the canvas, and checked the composer:
+Clicked `全能圈选`, dragged a region, then in the editor:
 
-- notice: `已把圈选图片插入输入框`;
-- composer text: `请解释圈选区域的内容。`;
-- attachment rail: `preview-snip-*.png`;
-- no page errors.
+- drew a box, an ellipse and an arrow;
+- switched to `文字`, clicked the canvas, typed `重点` in the inline input and pressed Enter;
+- `data-snip-shapes` reached **4** (box + ellipse + arrow + text);
+- clicked `插入输入框`: editor closed, notice shown, attachment `preview-snip-*.png` present, composer text set;
+- no page errors; editor screenshot at `docs/snip-editor.png`.
 
-## Text quote e2e (2026-10-23, preview-test)
+## DOM preview quick snip (preview-test, 2026-10-24)
 
-Opened `D:\codes\dsh-preview-market\README.md`, selected `Preview market` in the text preview, clicked `引用选中`:
+Opened `D:\codes\MEMORY.md` (Markdown text preview), clicked `圈选`, dragged over the text pane:
 
-- notice: `已引用选中文字`;
-- composer text: `> Preview market`;
-- no page errors.
+- notice `已把圈选图片插入输入框`;
+- attachment `preview-snip-*.png` present;
+- no page errors;
+- this exercises the DOM-to-SVG `foreignObject` path.
 
-## Not yet verified
+## Not yet verified after this release
 
-- Desktop profile after the pending restart (the plugin is installed there, but the app has not reloaded).
-- 3D/WebGL and video-frame capture (intentionally out of scope for 0.1.0).
+- Desktop profile restart (package installed, app process still predates the change).
+- A live video frame and a WebGL viewport; both use the same canvas crop path, and the first-party 3D viewers already set `preserveDrawingBuffer: true`.

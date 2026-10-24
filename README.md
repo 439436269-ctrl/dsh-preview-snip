@@ -1,17 +1,36 @@
 # dsh-preview-snip
 
-Circle a region of an image/PDF preview, or quote selected text, and put it into the DSH composer.
+Snip, annotate or quote **any** document preview in DSH and put the result into the composer.
 
-![Snip action and composer attachment](https://raw.githubusercontent.com/439436269-ctrl/dsh-preview-snip/main/docs/snip.png)
+![Quick snip and composer attachment](https://raw.githubusercontent.com/439436269-ctrl/dsh-preview-snip/main/docs/snip.png)
+
+![Annotation editor](https://raw.githubusercontent.com/439436269-ctrl/dsh-preview-snip/main/docs/snip-editor.png)
 
 ## What it does
 
-The plugin adds two actions to the right-Sidebar document-preview header:
+The plugin adds three actions to the right-Sidebar document-preview header:
 
-- **圈选 / Snip** — for images and PDF canvases; drag a rectangle over the visible preview, and the selected pixels become a PNG attachment in the composer, with a short default question.
+- **圈选 / Snip** — drag a rectangle; the selection becomes a PNG attachment in the composer, with a short default question. This is the quick path.
+- **全能圈选 / Annotate** — drag a rectangle, then open an editor and add a **box**, **circle/ellipse**, **arrow** or **text**, choose a color, undo/clear, and insert the annotated PNG.
 - **引用选中 / Quote selection** — quote the current text selection into the composer as a Markdown blockquote.
 
 Nothing is sent automatically: the attachment and text land in the composer, and you finish the question and press send.
+
+## Works on every preview type
+
+- **Pixels:** `<img>`, `<video>` current frame and `<canvas>` — images, PDF pages, video frames and WebGL viewports (the first-party Blender/STL viewers keep their drawing buffer).
+- **DOM screenshot:** text, Markdown, code and HTML previews are serialized to an SVG `foreignObject` and rasterized in the browser; the current pane stylesheet is embedded, so the screenshot keeps the preview's appearance.
+- **Quote:** any preview whose text is selectable.
+
+## Annotation editor
+
+After a full snip you get a canvas editor:
+
+- box, ellipse, arrow, text;
+- red / amber / blue / green;
+- undo, clear, cancel, insert;
+- text is entered inline (not a browser prompt);
+- the inserted image is the annotated canvas, not the original crop.
 
 ## Install
 
@@ -19,20 +38,23 @@ Nothing is sent automatically: the attachment and text land in the composer, and
 dsh plugin --profile <profile> add dsh-preview-snip
 ```
 
-Then open an image or PDF in the right Sidebar. The buttons appear in the preview header.
+Open any file in the right Sidebar. The three buttons appear in the preview header.
 
 ## How it works
 
 - Uses the `sidebar.right.tab.document.actions` slot; no Host routes and no external screenshot library.
-- For images it maps the selection through `object-fit: contain`; for PDFs it uses the rendered page canvas.
+- Pixel crops map through `object-fit: contain` for images/video, and use the canvas bitmap for PDF/WebGL.
+- DOM previews are cloned, the pane's CSS rules are embedded, and the clone is drawn through an SVG `foreignObject`.
 - Creates the PNG in the browser and hands it to `conversation.createDrafts` / `inputActions.addAttachments`, the same draft attachment path as a pasted image.
-- Quoting uses the browser's text selection and `inputActions.setDraft`.
+- Quoting uses the browser text selection and `inputActions.setDraft`.
 
 ## Limits
 
-- Pixel snip supports DOM `<img>` and `<canvas>` previews. WebGL/3D previews and video frames are not captured yet.
-- Quoting works on any preview whose text is selectable, including PDF text layers.
-- The capture is a client-side canvas crop; cross-origin images that taint the canvas will fail with a notice.
+- DOM screenshots skip cross-origin stylesheets and cross-origin background images; text and layout still render.
+- Video captures the current frame; it does not record.
+- WebGL capture needs the viewer to keep its drawing buffer; the first-party Blender and STL viewers do. A third-party WebGL preview that clears its buffer may capture blank.
+- Cross-origin images that taint the canvas fail with a notice.
+- The editor is client-side only; the original file is never modified.
 
 ## Compatibility
 
